@@ -23,19 +23,19 @@ def get_coords():
     return latitude, longitude, city
 
 def get_weather(latitude, longitude):
-    weather_api = requests.get(f"https://api.openweathermap.org/data/2.5/weather?lat={latitude}&lon={longitude}&appid={API_KEY}")
+    weather_api = requests.get(f"https://api.openweathermap.org/data/2.5/weather?lat={latitude}&lon={longitude}&appid={API_KEY}&units=metric")
 
     if weather_api.status_code == 200:
         weather_data = weather_api.json()
         weather = weather_data["weather"][0]["main"]
-        temp= round(int(weather_data["main"]["temp"]) - 273.15, 2) #kelvin temperature converted to celcius
+        temp= weather_data["main"]["temp"]
     
     return weather, temp
 
 def main():
     lat, lon,city = get_coords()
     weather, temp = get_weather(lat,lon)
-    print("Weather in", city.title() + ":", weather, temp, "Celcius.")
+    print("Weather in", city.title() + ":", weather, temp, "°C.")
 
 if __name__ == "__main__":
     main()
